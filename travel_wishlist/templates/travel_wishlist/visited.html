@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Places you have visited</title>
+</head>
+<body>
+<h2>Places you have visited</h2>
+
+<ul>
+    {% for place in visited %}
+        <li>{{ place.name }}</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'place_list' %}">Your wishlist</a>
+<a href="{% url 'about' %}">About</a>
+</body>
+</html>
