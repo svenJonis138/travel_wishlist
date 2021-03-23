@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About</title>
-</head>
-<body>
+{% extends 'travel_wishlist/base.html' %}
+<!-- html for the about page -->
+{% block content %}
 <h2>About</h2>
 <div>
     <p>{{ about }}</p>
     <p>A website by {{ author }}</p>
 </div>
-<a href="{% url 'place_list' %}">Your wishlist</a>
-<a href="{% url 'places_visited' %}">Places you've visited</a>
-</body>
-</html>
+{% endblock %}

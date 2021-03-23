@@ -13,24 +13,25 @@ def place_list(request):
             return redirect('place_list')  # reloads home page
 
     places = Place.objects.all().filter(visited=False).order_by('name')
-    new_place_form = NewPlaceForm()  # reates HTML
+    new_place_form = NewPlaceForm()  # creates HTML
     return render(request, 'travel_wishlist/wishlist.html', {'places': places, 'new_place_form': new_place_form})
 
 
 def about(request):
+    """handles the About section"""
     author = 'SvenJonis'
     about = 'A website to create a list of places to visit'
     return render(request, 'travel_wishlist/about.html', {'author': author, 'about': about})
 
 
 def places_visited(request):
-    visited = Place.objects.filter(visited=True)
-    return render(request, 'travel_wishlist/visited.html', {'visited': visited})
+    visited = Place.objects.filter(visited=True)  # loads all the places that have been visited
+    return render(request, 'travel_wishlist/visited.html', {'visited': visited})  # renders the visited page
 
 
 def place_was_visited(request, place_pk):
     if request.method == 'POST':
-        place = get_object_or_404(Place, pk=place_pk)
-        place.visited = True
-        place.save()
-    return redirect('place_list')
+        place = get_object_or_404(Place, pk=place_pk)  # if the request is invalid returns 404 error
+        place.visited = True  # changes status to visited
+        place.save()  # saves the change
+    return redirect('place_list')  # reloads home page

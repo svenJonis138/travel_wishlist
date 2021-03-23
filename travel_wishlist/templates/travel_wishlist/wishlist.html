@@ -1,29 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Travel Wishlist</title>
-</head>
+{% extends 'travel_wishlist/base.html' %}
+<!--HTML for main page, extends the base template -->
+{% block content %}
 <h2>Travel Wishlist</h2>
-<form method="POST" action="{% url 'place_list' %}">
-    {% csrf_token %}
+<form class="visited-form" method="POST" action="{% url 'place_list' %}">
+    {% csrf_token %} <!-- cross site referential fraud token for security -->
     {{ new_place_form }}
-    <button type="submit">Add</button>
+    <button id="add-new-place" type="submit">Add</button>
 </form>
 
-<body>
-{% for place in places %}
-<div>
-    {{ place.name }}
-    <form method="POST" action="{% url 'place_was_visited' place.pk %}">
+
+{% for place in places %} <!-- for loop to display unvisited places -->
+<div class="wishlist-place">
+    <span id="place-name-{{ place.pk }}class="place-name">{{ place.name }}</span>
+    <form class="visited-form" method="POST" action="{% url 'place_was_visited' place.pk %}">
         {% csrf_token %}
-    <button>Visited!</button>
+    <button id="visited-button-{{ place.pk }}">Visited!</button>
         </form>
 </div>
 {% empty %}
-<p>You have no places in your wishlist.</p>
+<p>You have no places in your wishlist.</p> <!-- if list is empty this will be displayed -->
 {% endfor %}
-<a href="{% url 'places_visited' %}">Places you've visited</a>
-<a href="{% url 'about' %}">About</a>
-</body>
-</html>
+{% endblock %}

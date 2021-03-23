@@ -1,0 +1,26 @@
+{% load static %}
+<!-- sets up the template for all the pages -->
+
+<!DOCTYPE html> <!-- not sure about this error message on the doctype declaration, but it works so... -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Travel Wishlist</title>
+    <link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type ="text/css">
+</head>
+<h1>Where do you want to go?</h1>
+<body>
+    <!-- individual page html goes in this block -->
+    {% block content %}
+    {% endblock %}
+</body>
+<div>
+    <p>A travel wishlist, built with Django</p>
+
+    <a class="nav-link" href="{% url 'place_list' %}">Your wishlist</a>
+    <a class="nav-link" href="{% url 'places_visited' %}">Places you've visited</a>
+    <a class="nav-link" href="{% url 'about' %}">About</a>
+
+</div>
+</html>
