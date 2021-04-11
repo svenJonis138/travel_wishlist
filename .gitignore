@@ -3,5 +3,6 @@ __pycache__
 .idea
 db.sqlite3
 venv
-chromedriver
+env138
+env
 env
