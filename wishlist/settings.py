@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -23,10 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'v+#9wlg11ayjj4bym6pq-$1j&a!%lm9g1x8v2ok4)(r#0df5yd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if os.getenv('GAE_INSTANCE'):
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -70,7 +71,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'wishlist.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -85,8 +85,12 @@ DATABASES = {
     }
 }
 if not os.getenv('GAE_INSTANCE'):
-    DATABASES['default']['HOST'] = '127.0.0.1'
-
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -106,7 +110,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -120,7 +123,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -130,7 +132,23 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-LOGIN_URL = '/admin/'
+if os.getenv('GAE_INSTANCE'):
+    GS_STATIC_FILE_BUCKET = 'travel-wishlist-138.appspot.com'
+    STATIC_URL = f'https://storage.cloud.google.com/{GS_STATIC_FILE_BUCKET}/static/'
+
+    GS_BUCKET_NAME = 'user-uploaded-images-places'
+
+    MEDIA_URL = f'https://storage.cloud.google.com/{GS_BUCKET_NAME}/media/'
+
+    LOGIN_URL = '/admin/'
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+
+    from google.oauth2 import service_account
+
+    GS_CREDENTIALS = service_account.Credentials.from_service_account_file('travel-wishlist-credentials.json')
+else:
+    MEDIA_URL = '/media/'
+    STATIC_URL = '/static/'
