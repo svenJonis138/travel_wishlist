@@ -25,7 +25,7 @@ SECRET_KEY = 'v+#9wlg11ayjj4bym6pq-$1j&a!%lm9g1x8v2ok4)(r#0df5yd'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -76,10 +76,16 @@ WSGI_APPLICATION = 'wishlist.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'places',
+        'USER': 'TRAVELER',
+        'PASSWORD': os.getenv('TRAVELER_PW'),
+        'HOST': '/cloudsql/travel-wishlist-138:us-central1:travel-wishlist',
+        'PORT': '5432'
     }
 }
+if not os.getenv('GAE_INSTANCE'):
+    DATABASES['default']['HOST'] = '127.0.0.1'
 
 
 # Password validation
@@ -119,7 +125,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+# ran into issues doing the collect static move, found this sifting through the GH Repository
+# also was missing the entire admin file in the static folder, must have missed both in the videos
+STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/admin/'
