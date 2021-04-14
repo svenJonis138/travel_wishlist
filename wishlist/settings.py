@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'places',
         'USER': 'TRAVELER',
         'PASSWORD': os.getenv('TRAVELER_PW'),
-        'HOST': 'travel-wishlist-138:us-central1:travel-wishlist',
+        'HOST': '/cloudsql/travel-wishlist-138:us-central1:travel-wishlist',
         'PORT': '5432'
     }
 }
@@ -132,3 +132,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'www', 'static')
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+LOGIN_URL = '/admin/'

@@ -6,3 +6,5 @@ venv
 env138
 env
 env
+app.yaml
+cloud_sql_proxy
