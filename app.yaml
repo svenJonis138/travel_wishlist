@@ -9,7 +9,7 @@ handlers:
   script: auto
 
 env_variables:
-  TRAVELER_PW: GyEsH5bldzFC6nwi
+  TRAVELER_PW: qwertyuiop0987654321123456!
 
 beta_settings:
   cloud_sql_instances: travel-wishlist-138:us-central1:wishlist-db

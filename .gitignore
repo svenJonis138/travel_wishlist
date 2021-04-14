@@ -8,3 +8,4 @@ env
 env
 app.yaml
 cloud_sql_proxy
+travel-wishlist-credentials.json
